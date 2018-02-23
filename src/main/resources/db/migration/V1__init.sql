@@ -1,0 +1,106 @@
+-- Database: cfa
+
+-- DROP DATABASE poc;
+
+-- CREATE DATABASE IF NOT EXISTS "poc" WITH OWNER "poc" ENCODING 'UTF8' LC_COLLATE = 'en_US.UTF-8' LC_CTYPE = 'en_US.UTF-8' TEMPLATE template0;
+
+CREATE TYPE person_status AS ENUM ('INACTIVE', 'ACTIVE', 'LOCKED', 'DELETED');
+
+CREATE TYPE person_role AS ENUM ('ADMIN','USER','COMPANY_ADMIN','COMPANY_USER','AGENCY_ADMIN','AGENCY_USER');
+
+CREATE TABLE IF NOT EXISTS person(
+  id SERIAL PRIMARY KEY,
+  company_id INTEGER DEFAULT NULL,
+  agency_id INTEGER DEFAULT NULL,
+  title VARCHAR DEFAULT NULL,
+  firstname VARCHAR DEFAULT NULL,
+  lastname VARCHAR DEFAULT NULL,
+  email VARCHAR NOT NULL UNIQUE,
+  password VARCHAR DEFAULT NULL,
+  phone VARCHAR DEFAULT NULL,
+  profile_image VARCHAR DEFAULT NULL,
+  status person_status NOT NULL DEFAULT 'INACTIVE',
+  role person_role NOT NULL,
+  skype_id VARCHAR DEFAULT NULL,
+  linkedin_profile VARCHAR DEFAULT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  created_by INTEGER DEFAULT NULL,
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_by INTEGER DEFAULT NULL
+);
+
+INSERT INTO person (firstname, lastname, email, password, status, role) VALUES ('admin', 'admin', 'admin@poc.com', '', 'ACTIVE', 'ADMIN');
+
+ALTER TABLE person ADD CONSTRAINT person_created_by_fkey FOREIGN KEY (created_by) REFERENCES person (id) ON DELETE RESTRICT;
+ALTER TABLE person ADD CONSTRAINT person_updated_by_fkey FOREIGN KEY (updated_by) REFERENCES person (id) ON DELETE RESTRICT;
+
+CREATE TABLE IF NOT EXISTS company (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR NOT NULL UNIQUE,
+  sub_domain VARCHAR DEFAULT NULL UNIQUE,
+  logo VARCHAR NOT NULL,
+  email VARCHAR NOT NULL UNIQUE,
+  phone VARCHAR DEFAULT NULL,
+  address VARCHAR DEFAULT NULL,
+  city VARCHAR DEFAULT NULL,
+  state VARCHAR DEFAULT NULL,
+  postal_code VARCHAR DEFAULT NULL,
+  country VARCHAR DEFAULT NULL,
+  deleted BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  created_by INTEGER NOT NULL REFERENCES person(id) ON DELETE NO ACTION,
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_by INTEGER NOT NULL REFERENCES person(id) ON DELETE NO ACTION
+);
+
+ALTER TABLE person ADD CONSTRAINT person_company_id_fkey FOREIGN KEY (company_id) REFERENCES company (id) ON DELETE RESTRICT;
+
+CREATE TYPE entity_type AS ENUM ('COMPANY', 'AGENCY');
+
+CREATE TABLE office (
+  id SERIAL PRIMARY KEY,
+  entity_type entity_type NOT NULL,
+  company_id INTEGER DEFAULT NULL REFERENCES person(id) ON DELETE NO ACTION,
+  agency_id INTEGER DEFAULT NULL,
+  name VARCHAR NOT NULL,
+  deleted BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  created_by INTEGER DEFAULT NULL REFERENCES person(id) ON DELETE NO ACTION,
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_by INTEGER DEFAULT NULL REFERENCES person(id) ON DELETE NO ACTION,
+  UNIQUE (company_id, name),
+  UNIQUE (agency_id, name)
+);
+
+CREATE TABLE person_office (
+  id SERIAL PRIMARY KEY,
+  office_id INTEGER NOT NULL REFERENCES office(id) ON DELETE RESTRICT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  created_by INTEGER DEFAULT NULL REFERENCES person(id) ON DELETE NO ACTION,
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_by INTEGER DEFAULT NULL REFERENCES person(id) ON DELETE NO ACTION
+);
+
+CREATE TABLE department (
+  id SERIAL PRIMARY KEY,
+  entity_type entity_type NOT NULL,
+  company_id INTEGER DEFAULT NULL REFERENCES person(id) ON DELETE NO ACTION,
+  agency_id INTEGER DEFAULT NULL,
+  name VARCHAR NOT NULL,
+  deleted BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  created_by INTEGER DEFAULT NULL REFERENCES person(id) ON DELETE NO ACTION,
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_by INTEGER DEFAULT NULL REFERENCES person(id) ON DELETE NO ACTION,
+  UNIQUE (company_id, name),
+  UNIQUE (agency_id, name)
+);
+
+CREATE TABLE person_department (
+  id SERIAL PRIMARY KEY,
+  department_id INTEGER NOT NULL REFERENCES department(id) ON DELETE RESTRICT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  created_by INTEGER DEFAULT NULL REFERENCES person(id) ON DELETE NO ACTION,
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_by INTEGER DEFAULT NULL REFERENCES person(id) ON DELETE NO ACTION
+);

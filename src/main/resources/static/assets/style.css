@@ -1,0 +1,149 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?6h33ts');
+  src:  url('fonts/icomoon.eot?6h33ts#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?6h33ts') format('truetype'),
+    url('fonts/icomoon.woff?6h33ts') format('woff'),
+    url('fonts/icomoon.svg?6h33ts#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Escalated_red:before {
+  content: "\e924";
+  color: #f44343;
+}
+.icon-eye:before {
+  content: "\e91f";
+}
+.icon-filter:before {
+  content: "\e920";
+}
+.icon-human:before {
+  content: "\e91d";
+}
+.icon-machine:before {
+  content: "\e91e";
+}
+.icon-checkmark:before {
+  content: "\e914";
+}
+.icon-expand:before {
+  content: "\e915";
+}
+.icon-false:before {
+  content: "\e916";
+}
+.icon-left-arrow:before {
+  content: "\e917";
+}
+.icon-List-View:before {
+  content: "\e918";
+}
+.icon-Map:before {
+  content: "\e919";
+}
+.icon-right-arrow:before {
+  content: "\e91a";
+}
+.icon-Shape2:before {
+  content: "\e91b";
+}
+.icon-Thumb-View:before {
+  content: "\e91c";
+}
+.icon-notification:before {
+  content: "\e913";
+}
+.icon-Assigned:before {
+  content: "\e900";
+  color: #4adbea;
+}
+.icon-Auto-Act:before {
+  content: "\e901";
+  color: #b36aff;
+}
+.icon-Combined-Shape:before {
+  content: "\e902";
+}
+.icon-False-Positive:before {
+  content: "\e904";
+  color: #ff4d6e;
+}
+.icon-hamburger .path1:before {
+  content: "\e905";
+  color: rgb(0, 0, 0);
+}
+.icon-hamburger .path2:before {
+  content: "\e906";
+  margin-left: -1.08203125em;
+  color: rgb(42, 37, 38);
+}
+.icon-help:before {
+  content: "\e907";
+}
+.icon-open:before {
+  content: "\e909";
+  color: #43ce75;
+}
+.icon-Path-38:before {
+  content: "\e90a";
+}
+.icon-Path:before {
+  content: "\e90b";
+  color: #ff1d1d;
+}
+.icon-Person:before {
+  content: "\e90c";
+  color: #ff1d1d;
+}
+.icon-reopen:before {
+  content: "\e90d";
+  color: #4adeb7;
+}
+.icon-Report:before {
+  content: "\e90e";
+}
+.icon-Search:before {
+  content: "\e90f";
+}
+.icon-System:before {
+  content: "\e912";
+  color: #ffda37;
+}
+.icon-action:before {
+  content: "\e903";
+}
+.icon-dashboard:before {
+  content: "\e908";
+}
+.icon-menu:before {
+  content: "\e910";
+}
+.icon-mycases:before {
+  content: "\e911";
+}
+.icon-reports:before {
+  content: "\e921";
+}
+.icon-rules:before {
+  content: "\e922";
+}
+.icon-savedfilter:before {
+  content: "\e923";
+}
